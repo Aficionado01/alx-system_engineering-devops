@@ -8,4 +8,3 @@ file { '/tmp/holberton':
   group   => 'www-data',
   content => 'I love Puppet'
   }
-  
