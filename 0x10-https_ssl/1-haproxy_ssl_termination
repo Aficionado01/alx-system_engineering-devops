@@ -33,12 +33,18 @@ defaults
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
 
-
-frontend curanxious.tech-frontend
+#start of parameters for curanxious.tech
+frontend curanxious.tech-http-frontend
         bind *:80
-        mode http
+        http-request set-header X-Forwarded-Proto http
         default_backend curanxious.tech-backend
+
+frontend curanxious.tech-https-frontend
+        bind *:443 ssl crt/etc/ssl/curanxious.tech.pem
+	http-request set-header X-forwarded-Proto https
+	default_backend curanxious.tech-backend
+
 backend curanxious.tech-backend
         balance roundrobin
-        server 914-web-01 34.139.31.147:80 check
-        server 914-web-02 18.205.60.201:80 check
+        server 1244-web-01 34.139.31.147:80 check
+        server 1244-web-02 18.205.60.201:80 check
