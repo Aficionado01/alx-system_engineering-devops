@@ -7,6 +7,8 @@
 #   ufw-before-output
 #   ufw-before-forward
 #
+
+# Redirect requests from port 8080/tcp to 80/tcp
 *nat
 :PREROUTING ACCEPT [0:0]
 -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
@@ -33,6 +35,7 @@ COMMIT
 # drop INVALID packets (logs these in loglevel medium and higher)
 -A ufw-before-input -m conntrack --ctstate INVALID -j ufw-logging-deny
 -A ufw-before-input -m conntrack --ctstate INVALID -j DROP
+
 # ok icmp codes for INPUT
 -A ufw-before-input -p icmp --icmp-type destination-unreachable -j ACCEPT
 -A ufw-before-input -p icmp --icmp-type time-exceeded -j ACCEPT
@@ -47,6 +50,7 @@ COMMIT
 
 # allow dhcp client to work
 -A ufw-before-input -p udp --sport 67 --dport 68 -j ACCEPT
+
 #
 # ufw-not-local
 #
